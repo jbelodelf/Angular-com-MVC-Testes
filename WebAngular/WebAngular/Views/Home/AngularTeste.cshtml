@@ -1,0 +1,82 @@
+﻿
+@{
+    Layout = null;
+}
+
+@*<!DOCTYPE html>*@
+
+<html ng-app="angularTeste">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        .jumbotron {
+            width: 600px;
+            text-align: center;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h3 {
+            margin-bottom: 30px;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        .form-control {
+            margin-bottom: 5px;
+        }
+
+        .selecionado {
+            background-color: yellow;
+        }
+
+        .negrito {
+            font-weight: bold;
+        }
+
+        hr {
+            border-color: #999;
+        }
+    </style>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/angular-messages.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <script>
+        angular.module("angularTeste", ["ngMessages"]);
+        angular.module("angularTeste").controller("angularTesteCtrl", function ($scope, $http) {
+            $scope.app = "Teste";
+            $scope.testeModel = {};
+            $scope.salvar = function (testeModel) {
+                $.ajax({
+                    url: "/Home/AngularTeste"
+                    , datatype: "json"
+                    , type: "POST"
+                    , async: false
+                    , data: { testeModel: testeModel }
+                }).done(function (data) {
+                    var teste = data;
+                })
+            };
+        });
+    </script>
+</head>
+<body ng-controller="angularTesteCtrl">
+    <div class="jumbotron">
+        <h3>{{app}}</h3>
+        {{message}}
+        <form name="testeForm">
+            <div><input class="form-control" type="text" name="Nome" ng-model="testeModel.Nome" placeholder="Nome"></div>
+            <div><input class="form-control" type="text" name="Telefone" ng-model="testeModel.Telefone" placeholder="Telefone"></div>
+        </form>
+
+        <div><button class="btn btn-primary" ng-click="salvar(testeModel)">Salvar</button></div>
+    </div>
+</body>
+</html>
